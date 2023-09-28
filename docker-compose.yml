@@ -1,0 +1,68 @@
+version: "3.5"
+services:
+
+  weather-app-backend-redis:
+    image: redis:latest
+
+  weather-app-backend-rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    #volumes:
+    #  - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+    #  - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - weather_app_network_docker
+
+  weather-app-backend-php-apache:
+    build:
+      context: .
+      dockerfile: ./docker/php-apache/Dockerfile
+    ports:
+      - "9080:80"
+      #- "9003:9003"
+    volumes:
+      - ./src/weather_app:/var/www/html
+      - ./docker/php-apache/conf.d/php.ini-development:/usr/local/etc/php/php.ini-development
+      - ./docker/php-apache/conf.d/php.ini-production:/usr/local/etc/php/php.ini-production
+      - ./docker/php-apache/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    networks:
+      - weather_app_network_docker
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-14}-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - weather-app-db-data:/var/lib/postgresql/data:rw
+    networks:
+      - weather_app_network_docker
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 9081:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=sargitcom@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecret
+    networks:
+      - weather_app_network_docker
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  weather-app-db-data:
+###< doctrine/doctrine-bundle ###
+
+networks:
+  weather_app_network_docker:
+    name: weather_app_network_docker
