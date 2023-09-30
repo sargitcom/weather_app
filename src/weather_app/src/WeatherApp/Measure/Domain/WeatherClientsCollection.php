@@ -43,4 +43,9 @@ class WeatherClientsCollection implements Iterator
     {
         return array_key_exists($this->index, $this->data);
     }
+
+    public function getCount() : int
+    {
+        return count($this->data);
+    }
 }

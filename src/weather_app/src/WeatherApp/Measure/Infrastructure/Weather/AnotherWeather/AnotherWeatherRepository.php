@@ -5,10 +5,11 @@ namespace App\WeatherApp\Measure\Infrastructure\Weather\AnotherWeather;
 use App\WeatherApp\Measure\Domain\ConcreteMeasure;
 use App\WeatherApp\Measure\Domain\Location;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
+use App\WeatherApp\Measure\Domain\Measure\UnitFactory;
 use App\WeatherApp\Measure\Domain\NoMeasure;
 use App\WeatherApp\Measure\Domain\WeatherInterface;
 use DateTime;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Client;
 use MeasureInterface;
 
 
@@ -18,23 +19,21 @@ class AnotherWeatherRepository implements WeatherInterface
 
     public function getWeatherByLocation(Location $location) : MeasureInterface
     {
-        $request = new Request(
-            'GET', 
-            'https://api.openweathermap.org/data/2.5/weather?q=' .
-            $location->getLocation() .
-            '&appid=' . 
-            $this->apiKey,
-            []
-        );
+        $url = 'https://api.openweathermap.org/data/2.5/weather?q=' . $location->getLocation() . '&units=metric&appid=' .  $this->apiKey;
 
-        echo '<pre>';
-        var_dump($request->getBody());
-        echo '</pre>';
-        die('test');
-    
-        //$temperature = Temperature::create();
-        //$time = new DateTime;
+        $client = new Client();
         
-        //return new ConcreteMeasure($temperature, $location, $time);
+        $response = $client->request('GET', $url);
+        
+        $body = $response->getBody();
+        $data = json_decode($body);
+
+        $temperature = $data->main->temp;
+
+        return new ConcreteMeasure(
+            Temperature::create($temperature, UnitFactory::getByHandle('C')),
+            $location,
+            new DateTime()
+        );
     }
 }

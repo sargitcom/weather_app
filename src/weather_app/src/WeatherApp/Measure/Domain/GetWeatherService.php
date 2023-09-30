@@ -58,6 +58,8 @@ class GetWeatherService
             $weatherClients->next();
         }
 
+        $newTemperature /= $weatherClients->getCount();
+
         $temperature = Temperature::create($newTemperature, UnitFactory::getByHandle('C'));
 
         return new ConcreteMeasure($temperature, $location, new DateTime());

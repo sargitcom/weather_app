@@ -19,7 +19,11 @@ class GetWeather
                 UnitFactory::getByHandle('C'), 
                 $weather->getTemperature()
             );
-        } catch (Exception) {
+        } catch (Exception $ex) {
+
+            var_dump($ex->getMessage());
+            die;
+
             return new GetWeatherResponse(GetWeatherResponse::IS_ERROR);
         }
     }

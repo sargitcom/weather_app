@@ -3,6 +3,8 @@ services:
 
   weather-app-backend-redis:
     image: redis:latest
+    networks:
+      - weather_app_network_docker
 
   weather-app-backend-rabbitmq:
     image: rabbitmq:3-management

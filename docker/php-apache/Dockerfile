@@ -53,3 +53,7 @@ RUN a2enmod headers
 FROM seventh_build as eigth_build
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+FROM eigth_build as ninth_build
+
+RUN pecl install redis && docker-php-ext-enable redis

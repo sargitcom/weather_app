@@ -31,7 +31,9 @@ services:
             $apiKey: '%env(OPEN_WEATHER_API_KEY)%'
 
     App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache:
-        class: App\WeatherApp\Measure\Infrastructure\Symfony\Measure\Cache\RedisWeatherCache
+        class: App\WeatherApp\Measure\Infrastructure\Symfony\Measure\Cache\Redis\RedisWeatherCache
+        arguments:
+            - '@weather_redis.cache'
 
     App\WeatherApp\Domain\GetWeatherService:
         factory: ['@App\WeatherApp\Domain\GetWeatherServiceFactory', 'createWeatherService']
