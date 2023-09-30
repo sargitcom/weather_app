@@ -2,13 +2,14 @@
 
 namespace App\WeatherApp\Domain;
 
+use App\WeatherApp\Measure\Domain\ConcreteMeasure;
 use App\WeatherApp\Measure\Domain\Location;
-use App\WeatherApp\Measure\Domain\Measure;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
 use App\WeatherApp\Measure\Domain\Measure\UnitFactory;
 use App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache;
 use App\WeatherApp\Measure\Infrastructure\Weather\WeatherClientsCollection;
 use DateTime;
+use MeasureInterface;
 
 class GetWeatherService
 {
@@ -17,7 +18,7 @@ class GetWeatherService
         private WeatherCache $weatherCache,
     ) {}
 
-    public function getWeatherByLocation(Location $location) : Measure
+    public function getWeatherByLocation(Location $location) : MeasureInterface
     {
         $measure = $this->weatherCache->getMeasure($location);
 
@@ -40,7 +41,7 @@ class GetWeatherService
         return $measure;
     }
 
-    protected function getNewWatherByLocation(Location $location) : Measure
+    protected function getNewWatherByLocation(Location $location) : ConcreteMeasure
     {
         $weatherClients = $this->weatherClients;
         $weatherClients->rewind();
@@ -59,6 +60,6 @@ class GetWeatherService
 
         $temperature = Temperature::create($newTemperature, UnitFactory::getByHandle('C'));
 
-        return new Measure($temperature, $location, new DateTime());
+        return new ConcreteMeasure($temperature, $location, new DateTime());
     }
 }

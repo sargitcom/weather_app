@@ -7,7 +7,7 @@ use App\WeatherApp\Measure\Domain\Measure\Unit;
 use DateTime;
 use MeasureInterface;
 
-class Measure implements MeasureInterface
+class ConcreteMeasure implements MeasureInterface
 {
     public function __construct(
         private Temperature $temperature,

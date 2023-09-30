@@ -2,8 +2,9 @@
 
 namespace App\WeatherApp\Measure\Domain;
 
+use MeasureInterface;
+
 interface MeasureRepository
 {
-    public function getMeasureByLocation(Location $location) : Measure;
-    public function storeMeasure(Measure $measure) : void;
+    public function storeMeasure(ConcreteMeasure $measure) : void;
 }

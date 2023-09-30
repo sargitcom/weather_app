@@ -1,7 +1,7 @@
 <?php
 
+use App\WeatherApp\Measure\Domain\ConcreteMeasure;
 use App\WeatherApp\Measure\Domain\Location;
-use App\WeatherApp\Measure\Domain\Measure;
 use App\WeatherApp\Measure\Domain\Measure\CantSaveItemInCacheException;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
 use App\WeatherApp\Measure\Domain\Measure\UnitFactory;
@@ -11,12 +11,9 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class RedisWeatherCache implements WeatherCache
 {
-    public function __construct(private CacheItemPoolInterface $weatherRedisCache)
-    {
-        
-    }
+    public function __construct(private CacheItemPoolInterface $weatherRedisCache) {}
 
-    public function storeMeasure(Measure $measure) : void
+    public function storeMeasure(ConcreteMeasure $measure) : void
     {
         $weather = $this->weatherRedisCache->getItem($measure->getLocation());
 
@@ -47,6 +44,6 @@ class RedisWeatherCache implements WeatherCache
         $temperature = Temperature::create($data['temperature'], $temperatureUnit);
         $time = DateTime::createFromFormat('Y-m-d H:i:s', $data['datetime']);
 
-        return new Measure($temperature, $location, $time);
+        return new ConcreteMeasure($temperature, $location, $time);
     }
 }

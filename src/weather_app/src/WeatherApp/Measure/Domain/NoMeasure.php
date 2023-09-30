@@ -21,12 +21,17 @@ class NoMeasure implements MeasureInterface
         throw new NoMeasureException();
     }
 
-    public function getUnit() : string
+    public function getTemperatureUnit() : string
     {
         throw new NoMeasureException();
     }
 
     public function getLocation() : string
+    {
+        throw new NoMeasureException();
+    }
+
+    public function getTime() : string
     {
         throw new NoMeasureException();
     }

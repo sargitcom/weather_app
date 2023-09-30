@@ -2,7 +2,8 @@
 
 namespace App\WeatherApp\Application\StoreWeather;
 
-use ExceptionInterface;
+use App\WeatherApp\Application\StoreWeather\Exception\ExceptionInterface;
+use App\WeatherApp\Application\StoreWeather\Exception\NoException;
 
 class StoreWeatherResponseBuilder
 {

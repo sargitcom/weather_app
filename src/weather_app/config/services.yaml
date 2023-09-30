@@ -20,5 +20,31 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\WeatherApp\Domain\GetWeatherServiceFactory: ~
+
+    App\WeatherApp\Measure\Infrastructure\Weather\AnotherWeather\AnotherWeatherRepository:
+        arguments:
+            $apiKey: '%env(OPEN_WEATHER_API_KEY)%'
+
+    App\WeatherApp\Measure\Infrastructure\Weather\OpenWeather\OpenWeatherRepository:
+        arguments:
+            $apiKey: '%env(OPEN_WEATHER_API_KEY)%'
+
+    App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache:
+        class: App\WeatherApp\Measure\Infrastructure\Symfony\Measure\Cache\RedisWeatherCache
+
+    App\WeatherApp\Domain\GetWeatherService:
+        factory: ['@App\WeatherApp\Domain\GetWeatherServiceFactory', 'createWeatherService']
+        arguments:
+            - '@App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache'
+            - '@App\WeatherApp\Measure\Infrastructure\Weather\OpenWeather\OpenWeatherRepository'
+            - '@App\WeatherApp\Measure\Infrastructure\Weather\AnotherWeather\AnotherWeatherRepository'
+
+    App\WeatherApp\Measure\Domain\MeasureRepository:
+        class: App\WeatherApp\Measure\Infrastructure\Symfony\Measure\Doctrine\DoctrineMeasureRepository
+
+    App\WeatherApp\Application\GetWeather\GetWeather: ~
+    App\WeatherApp\Application\StoreWeather\StoreWeather: ~
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
