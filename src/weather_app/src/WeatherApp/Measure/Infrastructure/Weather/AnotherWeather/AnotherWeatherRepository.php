@@ -10,6 +10,6 @@ class AnotherWeatherRepostiry implements WeatherInterface
 {
     public function getWeatherByLocation(Location $location) : Measure
     {
-        return new Measure;
+        // return new Measure;
     }
 }

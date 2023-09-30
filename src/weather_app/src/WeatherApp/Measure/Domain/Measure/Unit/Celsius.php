@@ -11,7 +11,7 @@ class Celsius extends Unit
 
     public function getUnit() : string
     {
-        return '°C';
+        return 'C';
     }
 
     public function getMinTemperature() : float

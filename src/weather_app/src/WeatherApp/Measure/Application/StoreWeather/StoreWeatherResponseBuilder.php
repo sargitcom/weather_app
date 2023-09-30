@@ -2,6 +2,8 @@
 
 namespace App\WeatherApp\Application\StoreWeather;
 
+use ExceptionInterface;
+
 class StoreWeatherResponseBuilder
 {
     private bool $isError;

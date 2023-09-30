@@ -14,6 +14,11 @@ class Temperature
         $this->setUnit($unit);
     }
 
+    public static function create(float $temperature, Unit $unit) : self
+    {
+        return new self($temperature, $unit);
+    }
+
     protected function assertValidTemperature(float $temperature, Unit $unit)
     {
         if ($temperature >= $unit->getMinTemperature() && $temperature <= $unit->getMaxTemperature()) {

@@ -11,7 +11,7 @@ class Farenheit extends Unit
 
     public function getUnit() : string
     {
-        return '°F';
+        return 'F';
     }
 
     public function getMinTemperature() : float

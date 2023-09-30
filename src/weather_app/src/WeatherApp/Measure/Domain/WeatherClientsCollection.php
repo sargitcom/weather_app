@@ -5,7 +5,7 @@ namespace App\WeatherApp\Measure\Infrastructure\Weather;
 use App\WeatherApp\Measure\Domain\WeatherInterface;
 use Iterator;
 
-class WeatherCollection implements Iterator
+class WeatherClientsCollection implements Iterator
 {
     private int $index = 0;
     
