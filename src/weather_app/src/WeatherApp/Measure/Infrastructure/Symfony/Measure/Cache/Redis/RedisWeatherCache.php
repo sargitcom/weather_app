@@ -2,12 +2,12 @@
 
 namespace App\WeatherApp\Measure\Infrastructure\Symfony\Measure\Cache\Redis;
 
-use App\WeatherApp\Measure\Domain\ConcreteMeasure;
-use App\WeatherApp\Measure\Domain\Location;
 use App\WeatherApp\Measure\Domain\Measure\CantSaveItemInCacheException;
+use App\WeatherApp\Measure\Domain\Measure\ConcreteMeasure;
+use App\WeatherApp\Measure\Domain\Measure\Location;
+use App\WeatherApp\Measure\Domain\Measure\NoMeasure;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
 use App\WeatherApp\Measure\Domain\Measure\UnitFactory;
-use App\WeatherApp\Measure\Domain\NoMeasure;
 use App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache;
 use DateTime;
 use MeasureInterface;

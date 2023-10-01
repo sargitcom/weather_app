@@ -2,11 +2,10 @@
 
 namespace App\WeatherApp\Measure\Infrastructure\Weather\AnotherWeather;
 
-use App\WeatherApp\Measure\Domain\ConcreteMeasure;
-use App\WeatherApp\Measure\Domain\Location;
+use App\WeatherApp\Measure\Domain\Measure\ConcreteMeasure;
+use App\WeatherApp\Measure\Domain\Measure\Location;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
 use App\WeatherApp\Measure\Domain\Measure\UnitFactory;
-use App\WeatherApp\Measure\Domain\NoMeasure;
 use App\WeatherApp\Measure\Domain\WeatherInterface;
 use DateTime;
 use GuzzleHttp\Client;

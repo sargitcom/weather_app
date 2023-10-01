@@ -2,8 +2,8 @@
 
 namespace App\WeatherApp\Measure\Infrastructure\Symfony\Measure;
 
-use App\WeatherApp\Measure\Domain\ConcreteMeasure;
-use App\WeatherApp\Measure\Domain\Location;
+use App\WeatherApp\Measure\Domain\Measure\ConcreteMeasure;
+use App\WeatherApp\Measure\Domain\Measure\Location;
 use MeasureInterface;
 
 interface WeatherCache

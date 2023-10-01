@@ -11,7 +11,7 @@ doctrine:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
         report_fields_where_declared: true
-        validate_xml_mapping: true
+        validate_xml_mapping: false
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
@@ -20,6 +20,13 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+            App\WeatherApp\Measure\Domain\Measure\ConcreteMeasure:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/WeatherApp/Measure/Infrastructure/Symfony/Measure/Doctrine/Mapping'
+                prefix: 'App\WeatherApp\Measure\Domain\Measure'
+                alias: ConcreteMeasure
 
 when@test:
     doctrine:

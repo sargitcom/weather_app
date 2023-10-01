@@ -1,14 +1,16 @@
 <?php
 
-namespace App\WeatherApp\Measure\Domain;
+namespace App\WeatherApp\Measure\Domain\Measure;
 
+use App\WeatherApp\Measure\Domain\Measure\Location;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
-use App\WeatherApp\Measure\Domain\Measure\Unit;
 use DateTime;
 use MeasureInterface;
 
 class ConcreteMeasure implements MeasureInterface
 {
+    private int $id;
+
     public function __construct(
         private Temperature $temperature,
         private Location $location,

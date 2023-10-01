@@ -2,7 +2,6 @@
 
 namespace App\WeatherApp\Domain;
 
-use App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache;
 use App\WeatherApp\Measure\Infrastructure\Weather\AnotherWeather\AnotherWeatherRepository;
 use App\WeatherApp\Measure\Infrastructure\Weather\OpenWeather\OpenWeatherRepository;
 use App\WeatherApp\Measure\Infrastructure\Weather\WeatherClientsCollection;

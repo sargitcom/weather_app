@@ -2,9 +2,8 @@
 
 namespace App\WeatherApp\Application\StoreWeather;
 
-use App\WeatherApp\Application\StoreWeather\Exception\ErrorDuringSaveException;
 use App\WeatherApp\Measure\Domain\MeasureRepository;
-use Exception;
+use Throwable;
 
 class StoreWeather
 {
@@ -12,17 +11,13 @@ class StoreWeather
         private MeasureRepository $measure
     ) {}
 
-    public function storeWeather(StoreWeatherRequset $weather) : StoreWeatherResponse
+    public function storeWeather(StoreWeatherRequest $weather) : bool
     {
         try {
             $this->measure->storeMeasure($weather->getConcreteWeather());
-            return StoreWeatherResponse::getBuilder()
-                ->build();
-        } catch (Exception) {
-            return StoreWeatherResponse::getBuilder()
-                ->setIsError(true)
-                ->setException(new ErrorDuringSaveException())
-                ->build();
+            return true;
+        } catch (Throwable) {
+            return false;
         }
     }
 }

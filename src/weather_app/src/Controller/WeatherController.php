@@ -7,19 +7,22 @@ use App\WeatherApp\Application\GetWeather\GetWeather;
 use App\WeatherApp\Application\GetWeather\GetWeatherRequest;
 use App\WeatherApp\Application\GetWeather\GetWeatherResponse;
 use App\WeatherApp\Application\StoreWeather\StoreWeather;
-use App\WeatherApp\Application\StoreWeather\StoreWeatherRequset;
-use App\WeatherApp\Measure\Domain\ConcreteMeasure;
-use App\WeatherApp\Measure\Domain\Location;
+use App\WeatherApp\Application\StoreWeather\StoreWeatherRequest;
+use App\WeatherApp\Measure\Domain\Measure\ConcreteMeasure;
+use App\WeatherApp\Measure\Domain\Measure\Location;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
 use App\WeatherApp\Measure\Domain\Measure\UnitFactory;
 use App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache;
 use DateTime;
+use Exception;
 use MeasureInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Throwable;
 
 class WeatherController extends AbstractController
 {
@@ -32,26 +35,30 @@ class WeatherController extends AbstractController
     #[Route('/', methods: ['GET', 'POST'])]
     public function __invoke(Request $request) : Response
     {
-        $form = $this->createForm(FormType::class);
+        try {
+            $form = $this->createForm(FormType::class);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $data = $form->getData();
 
-            $location = Location::create($data['city'] . ',' . $data['country']);
+                $location = Location::create($data['city'] . ',' . $data['country']);
 
-            return $this->getWeatherView($form, $location);
+                return $this->getWeatherView($form, $location);
+            }
+
+            return $this->getView($form);
+        } catch (Throwable) {
+            return new JsonResponse(['msg' => 'Error during call. Try again later...']);
         }
-
-        return $this->getView($form);
     }
 
     protected function getWeatherView(Form $form, Location $location) : Response
     {
         $cachedMeasure = $this->getWeatherFromCache($location);
 
-        if (false && $cachedMeasure->isNullObject() === false && $this->isCacheObsolete($cachedMeasure->getTime()) === false) {
+        if ($cachedMeasure->isNullObject() === false && $this->isCacheObsolete($cachedMeasure->getTime()) === false) {
             return $this->render('form.html.twig', [
                 'form' => $form,
                 'temperature' => $cachedMeasure->getTemperature(),
@@ -64,7 +71,7 @@ class WeatherController extends AbstractController
         $measure = $this->getMeasure($location, $newWeather->getTemperature(), $newWeather->getTemperatureUnit());
 
         $this->persistsInDatabase($measure);
-        //$this->persistsInCache($measure);
+        $this->persistsInCache($measure);
 
         return $this->render('form.html.twig', [
             'form' => $form,
@@ -101,13 +108,17 @@ class WeatherController extends AbstractController
 
     protected function persistsInDatabase(ConcreteMeasure $concreteMeasure) : void
     {
-        $this->storeWeather->storeWeather(
-            new StoreWeatherRequset(
+        $response = $this->storeWeather->storeWeather(
+            StoreWeatherRequest::create(
                 $concreteMeasure->getLocation(),
                 $concreteMeasure->getTemperature(),
                 $concreteMeasure->getTemperatureUnit()
             )
         );
+
+        if (!$response) {
+            throw new Exception("Error during saving temperature in database exception");
+        }
     }
 
     protected function persistsInCache(ConcreteMeasure $concreteMeasure) : void

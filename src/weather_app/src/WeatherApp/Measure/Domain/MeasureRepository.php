@@ -2,7 +2,7 @@
 
 namespace App\WeatherApp\Measure\Domain;
 
-use MeasureInterface;
+use App\WeatherApp\Measure\Domain\Measure\ConcreteMeasure;
 
 interface MeasureRepository
 {

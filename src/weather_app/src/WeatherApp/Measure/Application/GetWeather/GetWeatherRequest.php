@@ -2,7 +2,7 @@
 
 namespace App\WeatherApp\Application\GetWeather;
 
-use App\WeatherApp\Measure\Domain\Location;
+use App\WeatherApp\Measure\Domain\Measure\Location;
 
 class GetWeatherRequest
 {

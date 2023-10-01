@@ -2,11 +2,10 @@
 
 namespace App\WeatherApp\Domain;
 
-use App\WeatherApp\Measure\Domain\ConcreteMeasure;
-use App\WeatherApp\Measure\Domain\Location;
+use App\WeatherApp\Measure\Domain\Measure\ConcreteMeasure;
+use App\WeatherApp\Measure\Domain\Measure\Location;
 use App\WeatherApp\Measure\Domain\Measure\Temperature;
 use App\WeatherApp\Measure\Domain\Measure\UnitFactory;
-use App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache;
 use App\WeatherApp\Measure\Infrastructure\Weather\WeatherClientsCollection;
 use DateTime;
 use MeasureInterface;

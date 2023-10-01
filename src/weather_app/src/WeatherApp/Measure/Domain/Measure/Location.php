@@ -1,6 +1,6 @@
 <?php
 
-namespace App\WeatherApp\Measure\Domain;
+namespace App\WeatherApp\Measure\Domain\Measure;
 
 use App\WeatherApp\Measure\Domain\Measure\LocationEmptyException;
 use App\WeatherApp\Measure\Domain\Measure\LocationTooLongException;
