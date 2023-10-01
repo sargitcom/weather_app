@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: ./docker/php-apache/Dockerfile
     ports:
-      - "9080:80"
+      - "80:80"
       #- "9003:9003"
     volumes:
       - ./src/weather_app:/var/www/html
