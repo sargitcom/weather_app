@@ -38,7 +38,7 @@ services:
     App\WeatherApp\Domain\GetWeatherService:
         factory: ['@App\WeatherApp\Domain\GetWeatherServiceFactory', 'createWeatherService']
         arguments:
-            - '@App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache'
+            #- '@App\WeatherApp\Measure\Infrastructure\Symfony\Measure\WeatherCache'
             - '@App\WeatherApp\Measure\Infrastructure\Weather\OpenWeather\OpenWeatherRepository'
             - '@App\WeatherApp\Measure\Infrastructure\Weather\AnotherWeather\AnotherWeatherRepository'
 

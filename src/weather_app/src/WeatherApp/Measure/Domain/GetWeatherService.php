@@ -15,30 +15,11 @@ class GetWeatherService
 {
     public function __construct(
         private WeatherClientsCollection $weatherClients,
-        private WeatherCache $weatherCache,
     ) {}
 
     public function getWeatherByLocation(Location $location) : MeasureInterface
     {
-        $measure = $this->weatherCache->getMeasure($location);
-
-        if ($measure->isNullObject()) {
-            $measure = $this->getNewWatherByLocation($location);
-            $this->weatherCache->storeMeasure($measure);
-            return $measure;
-        }
-
-        $measureTime = $measure->getTime();
-
-        $startDatetime = new DateTime(); 
-        $diff = $startDatetime->diff(new DateTime($measureTime)); 
-
-        if ($diff->s >= 3600) { // this time should be controlled by yml config - for simplicity left hard coded time
-            $measure = $this->getNewWatherByLocation($location);
-            $this->weatherCache->storeMeasure($measure);
-        }
-
-        return $measure;
+        return $this->getNewWatherByLocation($location);
     }
 
     protected function getNewWatherByLocation(Location $location) : ConcreteMeasure

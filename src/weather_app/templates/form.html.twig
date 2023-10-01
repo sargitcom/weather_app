@@ -10,4 +10,8 @@
         <button type="submit" class="btn">Get weather</button>
     {{ form_end(form) }}
 
+    {% if temperature is defined %}
+        Aktualna temperatura w tym mieście to: {{ temperature }}°{{ temperatureUnit }}
+    {% endif %}    
+
 {% endblock %}

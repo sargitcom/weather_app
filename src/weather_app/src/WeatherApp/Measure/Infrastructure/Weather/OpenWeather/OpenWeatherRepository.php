@@ -36,5 +36,4 @@ class OpenWeatherRepository implements WeatherInterface
             new DateTime()
         );
     }
-
 }

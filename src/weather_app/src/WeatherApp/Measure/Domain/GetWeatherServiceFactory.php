@@ -10,7 +10,6 @@ use App\WeatherApp\Measure\Infrastructure\Weather\WeatherClientsCollection;
 class GetWeatherServiceFactory
 {
     public static function createWeatherService(
-        WeatherCache $weatherCache,
         OpenWeatherRepository $openWeatherRepository,
         AnotherWeatherRepository $anotherWeatherRepostiry,
     ) : GetWeatherService {
@@ -18,6 +17,6 @@ class GetWeatherServiceFactory
         $weatherClients->append($openWeatherRepository);
         $weatherClients->append($anotherWeatherRepostiry);
 
-        return new GetWeatherService($weatherClients, $weatherCache);
+    return new GetWeatherService($weatherClients);
     }
 }
