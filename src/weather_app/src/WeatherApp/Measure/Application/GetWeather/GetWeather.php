@@ -20,10 +20,6 @@ class GetWeather
                 $weather->getTemperature()
             );
         } catch (Exception $ex) {
-
-            var_dump($ex->getMessage());
-            die;
-
             return new GetWeatherResponse(GetWeatherResponse::IS_ERROR);
         }
     }
