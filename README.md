@@ -2,7 +2,7 @@
 
 ## installation & application run
 
-in .env provide open weather map API key
+in .env provide open weather map API key (in field OPEN_WEATHER_API_KEY)
 
 run docker with `sudo docker-compose up -d --build`
 
